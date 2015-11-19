@@ -1,10 +1,10 @@
 {
-  "name": "json-vision",
-  "version": "0.1.8",
-  "description": "",
+  "name": "quick-interface",
+  "version": "0.2.0",
+  "description": ">###*work in progress*",
   "main": "lib/index.js",
-  "author": "",
-  "license": "ISC",
+  "author": "Polgár András <azazdeaz@gmail.com> (http://github.com/azazdeaz)",
+  "license": "MIT",
   "scripts": {
     "lib": "babel ./src --out-dir lib  --source-maps --source-maps",
     "lib-watch": "npm run lib && babel ./src --out-dir lib  --source-maps --source-maps --watch",
@@ -60,5 +60,19 @@
     "reselect": "^2.0.1",
     "webpack": "^1.10.5",
     "webpack-dev-server": "^1.10.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azazdeaz/quick-interface.git"
+  },
+  "keywords": [
+    "ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/azazdeaz/quick-interface/issues"
+  },
+  "homepage": "https://github.com/azazdeaz/quick-interface#readme"
 }

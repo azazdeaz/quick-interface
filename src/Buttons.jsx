@@ -3,6 +3,12 @@ var Matterkit = require('react-matterkit')
 var {ItemGroup, Button} = Matterkit
 
 export default function Buttons({buttons, buttonStyle, hover}) {
+  if (__DEV__) {
+    if (typeof buttons !== 'object' || !buttons.hasOwnProperty('length')) {
+      throw Error(`[quick-interface] settigns.buttons should be an Array but it's "${buttons}"`)
+    }
+  }
+
   return <ItemGroup>
     {buttons.map((btn, idx) => {
       var visibility = 'visible'

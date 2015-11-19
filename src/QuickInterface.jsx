@@ -3,10 +3,21 @@ import Row from './Row'
 import shallowEqual from 'react-pure-render/shallowEqual'
 
 class QuickInterface extends React.Component {
+  static propTypes = {
+    createSettings: PropTypes.func.isRequired
+  }
+
   constructor({createSettings, children, ...options}) {
     super()
 
     const settings = createSettings(options)
+
+    if (__DEV__) {
+      if (typeof settings !== 'object') {
+        throw Error(`[quick-interface] createSettings should return an object but it returned "${settings}"`)
+      }
+    }
+console.log('settings', settings)
     this.settings = settings
 
     this.state = {
@@ -17,10 +28,6 @@ class QuickInterface extends React.Component {
         ? settings.defaultOpen
         : true
     }
-  }
-
-  static propTypes = {
-    createSettings: React.PropTypes.func.isRequired
   }
 
   componentWillReceiveProps(nextProps) {
