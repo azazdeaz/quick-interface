@@ -1,60 +1,24 @@
 import React, { PropTypes } from 'react'
 import Row from './Row'
-import shallowEqual from 'react-pure-render/shallowEqual'
+import Children from './Children'
+import {observer} from 'mobservable-react'
 
+@observer
 class QuickInterface extends React.Component {
   static propTypes = {
-    createSettings: PropTypes.func.isRequired
+    describe: PropTypes.func.isRequired
   }
 
-  constructor({createSettings, children, ...options}) {
-    super()
-
-    const settings = createSettings(options)
-
-    if (__DEV__) {
-      if (typeof settings !== 'object') {
-        throw Error(`[quick-interface] createSettings should return an object but it returned "${settings}"`)
-      }
-    }
-console.log('settings', settings)
-    this.settings = settings
+  constructor(props) {
+    super(props)
 
     this.state = {
       hover: false,
-      open: settings.hasOwnProperty('open')
-        ? settings.open
-        : settings.hasOwnProperty('defaultOpen')
-        ? settings.defaultOpen
-        : true
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {
-      createSettings: nextCreateSettings,
-      children: nextChildren,
-      ...nextOptions
-    } = nextProps
-
-    const {
-      createSettings,
-      children,
-      ...options
-    } = this.props
-
-    if (!shallowEqual(options, nextOptions)) {
-      this.settings = nextCreateSettings(nextOptions)
+      open: true,
     }
   }
 
   handleClickOpenToggle = () => {
-    var {onToggleOpen} = this.settings
-
-    if (onToggleOpen) {
-      onToggleOpen()
-    }
-
     this.setState({open: !this.state.open})
   }
 
@@ -65,42 +29,43 @@ console.log('settings', settings)
     this.setState({hover: false})
 
   render () {
-    const {settings} = this
-    const {open, hover} = this.state
-    const {children} = this.props
-    const showChildren = children && settings.hasOwnProperty('open')
-      ? settings.open
-      : open
-    const hasChildren = React.Children.count(children) > 0
+    const {
+      describeRow,
+      describeChildren,
+      open,
+      onToggleOpen,
+      hidden,
+      Component
+    } = this.props.describe()
 
-    if (settings.ItemComponent) {
-      return <settings.ItemComponent {...this.props}/>
+    if (Component) {
+      return <Component {...this.props}/>
     }
 
-    const row = settings.hiddenHead
-      ? null
-      : <Row
-          settings = {settings}
+    const showChildren = open !== undefined ? open : this.state.open
+
+    const row = describeRow
+      ? <Row
+          describe = {describeRow}
           openState = {showChildren}
-          hoverState = {hover}
-          hasChildren = {hasChildren}
+          hoverState = {this.state.hover}
+          hasChildren = {!!describeChildren}
           onHover = {this.handleHover}
           onLeave = {this.handleLeave}
-          onClickOpenToggle = {this.handleClickOpenToggle}/>
+          onClickOpenToggle = {onToggleOpen || this.handleClickOpenToggle}/>
+      : null
 
-    const childrenBlock = !showChildren || !hasChildren
-      ? null
-      : <div
-          hidden={!showChildren}
-          style={{marginLeft: 4}}>
-          {children}
-        </div>
+    const children = showChildren && describeChildren
+      ? <Children
+          style = {{marginLeft: 4}}
+          describe = {describeChildren}/>
+      : null
 
     return <div
-      hidden = {settings.hidden}
+      hidden = {hidden}
       style = {{position: 'relative'}}>
       {row}
-      {childrenBlock}
+      {children}
     </div>
   }
 }

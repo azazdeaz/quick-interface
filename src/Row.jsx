@@ -1,17 +1,20 @@
 import React from 'react'
+import {observer} from 'mobservable-react'
+import Label from './Label'
 import Input from './Input'
-import Buttons from './Buttons'
-import DndWrap from './DndWrap'
+import Button from './Button'
+//import DndWrap from './DndWrap'
 import ContextMenuWrap from './ContextMenuWrap'
-import {Icon, Label, getTheme} from 'react-matterkit'
+import {Icon, getTheme} from 'react-matterkit'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 
+@observer
 export default class Row extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
   render() {
     const {
-      settings,
+      describe,
       hoverState,
       openState,
       hasChildren,
@@ -20,75 +23,61 @@ export default class Row extends React.Component {
       onClickOpenToggle,
     } = this.props
 
-    if (settings.Component) {
-      return <settings.Component {...this.props}/>
+    const {
+      Component,
+      highlighted,
+      contextMenu,
+      draggable,
+      onClick,
+      items
+    } = describe()
+
+    if (Component) {
+      return <Component {...this.props}/>
     }
 
     var styleConfig = getTheme(this).getStyle('config')
-    var textColor = settings.highlighted ? styleConfig.palette.grey4 : styleConfig.fontColor.normal
+    var textColor = highlighted ? styleConfig.palette.grey4 : styleConfig.fontColor.normal
 
     var styleBlock = {
       position: 'relative',
       height: styleConfig.lineHeight,
       lineHeight: `${styleConfig.lineHeight}px`,
       display: 'flex',
-      color: settings.highlighted ? styleConfig.palette.blue : styleConfig.palette.grey2,
+      color: highlighted ? styleConfig.palette.blue : styleConfig.palette.grey2,
       fontSize: '13px',
-      backgroundColor: settings.highlighted ? styleConfig.palette.blue : styleConfig.palette.bg,
+      backgroundColor: highlighted ? styleConfig.palette.blue : styleConfig.palette.bg,
       borderBottom: 'solid 1px #1a1d21',
       boxSizing: 'border-box',
     }
 
-    var items = {}
+    function renderItem(item, key) {
+      const content = () => {
+        switch(item.type) {
+          case 'button':
+            return (
+              <Button
+                hover = {hoverState}
+                style = {{color: textColor}}
+                describe = {item.describe}/>
+            )
+          case 'input':
+            return (
+              <Input describe = {describe}/>
+            )
+          case 'label':
+            return (
+              <Label
+                style = {{color: textColor}}
+                describe = {describe}/>
+            )
+        }
+      }
 
-
-    //label
-    if (settings.labels) {
-      items.labels = <span style={{display: 'flex', flex: 1}}>
-        {settings.labels.map((label, id) => {
-          if (typeof label === 'string') {
-            label = {label}
-          }
-          label = {
-            ...label,
-            style: {
-              flex: 1,
-              color: textColor,
-              ...label.style
-            }
-          }
-
-          return <Label key={id} {...label}/>
-        })}
-      </span>
+      return <div key={key} style={item.style}>
+        {content()}
+      </div>
     }
-
-    //inputs
-    if (settings.inputs) {
-
-      items.inputs = <span style={{display: 'flex', flex: 1}}>
-
-        {settings.inputs.map((inputProps, idx) => {
-          return <Input
-            key = {idx}
-            {...inputProps}/>
-        })}
-      </span>
-    }
-
-    //buttons
-    if (settings.buttons) {
-      items.buttons = <Buttons
-        hover = {hoverState}
-        buttonStyle = {{color: textColor}}
-        buttons = {settings.buttons}/>
-    }
-
-    //show/hide toggle btn
-    items.toggle = <Icon
-      icon={hasChildren ? (openState ? 'chevron-down' : 'chevron-right') : ' '}
-      onClick={hasChildren ? onClickOpenToggle : null}
-      style={{margin: '0 4px', color: textColor}}/>
 
 
       // <DndWrap
@@ -96,18 +85,21 @@ export default class Row extends React.Component {
       //   onMouseEnter={onHover}
       //   onMouseLeave={onLeave}
       //   onClick={()=>{
-      //     if (settings.onClick) {
-      //       settings.onClick()
+      //     if (onClick) {
+      //       onClick()
       //     }
       //   }}
-      //   draggable = {settings.draggable}>}
+      //   draggable = {draggable}>}
       // </DndWrap>
-    return <ContextMenuWrap options={settings.contextMenu}>
+    return <ContextMenuWrap options={contextMenu}>
         <div style={styleBlock}>
-        {items.toggle}
-        {items.labels}
-        {items.inputs}
-        {items.buttons}
+
+          <Icon
+            icon={hasChildren ? (openState ? 'chevron-down' : 'chevron-right') : ' '}
+            onClick={hasChildren ? onClickOpenToggle : null}
+            style={{margin: '0 4px', color: textColor}}/>
+
+          {items.map((item, idx) => renderItem(item, idx))}
 
         </div>
     </ContextMenuWrap>

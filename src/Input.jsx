@@ -1,13 +1,15 @@
 var React = require('react')
+import {observer} from 'mobservable-react'
 var isObject = require('lodash/lang/isObject')
 var isArray = require('lodash/lang/isArray')
 var Matter = require('react-matterkit')
 var {Button, Slider, Dropdown, Checkbox, MultiTypeInput,
   Input: MatterInput} = Matter
 
+@observer
 export default class Input extends React.Component {
   render() {
-    var {key, ...inputProps} = this.props
+    var inputProps = this.props.describe()
     var {value, type, onChange} = inputProps
     var input = null
 
@@ -99,7 +101,7 @@ export default class Input extends React.Component {
     }
 
     return input ?
-      <span style={{flex: 1}} key={key}>{input}</span> :
-      <span hidden={true} key={key}/>
+      <span style={{flex: 1}}>{input}</span> :
+      <span hidden={true}/>
   }
 }

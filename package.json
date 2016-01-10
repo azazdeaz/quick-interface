@@ -1,6 +1,6 @@
 {
   "name": "quick-interface",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": ">###*work in progress*",
   "main": "lib/index.js",
   "author": "Polgár András <azazdeaz@gmail.com> (http://github.com/azazdeaz)",
@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "lodash": "^3.7.0",
+    "mobservable": "^1.2.1",
+    "mobservable-react": "^2.1.1",
     "react-dnd": "^1.1.4",
     "react-matterkit": "0.0.45",
     "react-pure-render": "^1.0.2"
