@@ -12,6 +12,10 @@ import shouldPureComponentUpdate from 'react-pure-render/function'
 export default class Row extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 
+  static contextTypes = {
+    matterkitTheme: React.PropTypes.object
+  }
+
   render() {
     const {
       describe,
@@ -52,31 +56,30 @@ export default class Row extends React.Component {
     }
 
     function renderItem(item, key) {
-      const content = () => {
-        switch(item.type) {
-          case 'button':
-            return (
-              <Button
-                hover = {hoverState}
-                style = {{color: textColor}}
-                describe = {item.describe}/>
-            )
-          case 'input':
-            return (
-              <Input describe = {describe}/>
-            )
-          case 'label':
-            return (
-              <Label
-                style = {{color: textColor}}
-                describe = {describe}/>
-            )
-        }
+      switch(item.type) {
+        case 'button':
+        return (
+          <Button
+            key={key}
+            hover = {hoverState}
+            style = {{...item.style, color: textColor}}
+            describe = {item.describe}/>
+        )
+        case 'input':
+        return (
+          <Input
+            key={key}
+            style = {{...item.style}}
+            describe = {item.describe}/>
+        )
+        case 'label':
+        return (
+          <Label
+            key={key}
+            style = {{...item.style, color: textColor}}
+            describe = {describe}/>
+        )
       }
-
-      return <div key={key} style={item.style}>
-        {content()}
-      </div>
     }
 
 

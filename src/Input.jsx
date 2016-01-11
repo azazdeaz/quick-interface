@@ -1,4 +1,4 @@
-var React = require('react')
+import React from 'react'
 import {observer} from 'mobservable-react'
 var isObject = require('lodash/lang/isObject')
 var isArray = require('lodash/lang/isArray')
