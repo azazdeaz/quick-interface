@@ -1,8 +1,8 @@
 import React from 'react'
-import {observer} from 'mobservable-react'
+import {afflatus} from 'afflatus'
 var {Label} = require('react-matterkit')
 
-export default observer(({describe}) => {
+export default afflatus(({describe}) => {
   const settings = describe()
   return (
     <Label {...settings}/>

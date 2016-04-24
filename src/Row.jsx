@@ -1,5 +1,5 @@
 import React from 'react'
-import {observer} from 'mobservable-react'
+import {afflatus} from 'afflatus'
 import Label from './Label'
 import Input from './Input'
 import Button from './Button'
@@ -8,7 +8,7 @@ import ContextMenuWrap from './ContextMenuWrap'
 import {Icon, getTheme} from 'react-matterkit'
 import shouldPureComponentUpdate from 'react-pure-render/function'
 
-@observer
+@afflatus
 export default class Row extends React.Component {
   shouldComponentUpdate = shouldPureComponentUpdate
 

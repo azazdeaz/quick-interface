@@ -1,7 +1,7 @@
 import React from 'react'
-import {observer} from 'mobservable-react'
+import {afflatus} from 'afflatus'
 
-export default observer(({describe, style}) => {
+export default afflatus(({describe, style}) => {
   const children = describe()
   return (
     <div style={style}>

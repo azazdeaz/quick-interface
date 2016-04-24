@@ -1,8 +1,8 @@
 import React from 'react'
-import {observer} from 'mobservable-react'
+import {afflatus} from 'afflatus'
 import {Button} from 'react-matterkit'
 
-export default observer(({describe, style, hover}) => {
+export default afflatus(({describe, style, hover}) => {
   const settings = describe()
 
   let visibility = 'visible'

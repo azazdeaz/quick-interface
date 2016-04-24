@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
 import Row from './Row'
 import Children from './Children'
-import {observer} from 'mobservable-react'
+import {afflatus} from 'afflatus'
 
-@observer
+@afflatus
 class QuickInterface extends React.Component {
   static propTypes = {
     describe: PropTypes.func.isRequired

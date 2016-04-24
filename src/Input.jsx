@@ -1,12 +1,12 @@
 import React from 'react'
-import {observer} from 'mobservable-react'
+import {afflatus} from 'afflatus'
 var isObject = require('lodash/lang/isObject')
 var isArray = require('lodash/lang/isArray')
 var Matter = require('react-matterkit')
 var {Button, Slider, Dropdown, Checkbox, MultiTypeInput,
   Input: MatterInput} = Matter
 
-@observer
+@afflatus
 export default class Input extends React.Component {
   render() {
     var inputProps = this.props.describe()
