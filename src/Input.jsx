@@ -101,7 +101,7 @@ export default class Input extends React.Component {
     }
 
     return input ?
-      <span style={{flex: 1}}>{input}</span> :
+      <span style={{flex: 1, overflow: 'hidden'}}>{input}</span> :
       <span hidden={true}/>
   }
 }
