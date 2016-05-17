@@ -1,10 +1,15 @@
 import React from 'react'
 import {afflatus} from 'afflatus'
-var {Label} = require('react-matterkit')
+var {MLabel} = require('react-matterkit')
 
-export default afflatus(({describe}) => {
-  const settings = describe()
-  return (
-    <Label {...settings}/>
-  )
-})
+@afflatus
+export default class Label extends React.Component {
+  render() {
+    const {describe} = this.props
+    const settings = describe()
+
+    return (
+      <MLabel {...settings}/>
+    )
+  }
+}
