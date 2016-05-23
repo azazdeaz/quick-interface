@@ -77,7 +77,7 @@ export default class Row extends React.Component {
           <Label
             key={key}
             style = {{...item.style, color: textColor}}
-            describe = {describe}/>
+            describe = {item.describe}/>
         )
       }
     }
@@ -95,7 +95,7 @@ export default class Row extends React.Component {
       //   draggable = {draggable}>}
       // </DndWrap>
     return <ContextMenuWrap options={contextMenu}>
-        <div style={styleBlock}>
+        <div style={styleBlock} onClick={onClick}>
 
           <Icon
             icon={hasChildren ? (openState ? 'chevron-down' : 'chevron-right') : ' '}

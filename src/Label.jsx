@@ -1,6 +1,6 @@
 import React from 'react'
 import {afflatus} from 'afflatus'
-var {MLabel} = require('react-matterkit')
+var {Label: MLabel} = require('react-matterkit')
 
 @afflatus
 export default class Label extends React.Component {
