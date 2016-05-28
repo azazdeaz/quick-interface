@@ -33,7 +33,8 @@ export default class Row extends React.Component {
       contextMenu,
       draggable,
       onClick,
-      items
+      items,
+      hideLeftToggle,
     } = describe()
 
     if (Component) {
@@ -97,10 +98,16 @@ export default class Row extends React.Component {
     return <ContextMenuWrap options={contextMenu}>
         <div style={styleBlock} onClick={onClick}>
 
-          <Icon
-            icon={hasChildren ? (openState ? 'chevron-down' : 'chevron-right') : ' '}
-            onClick={hasChildren ? onClickOpenToggle : null}
-            style={{margin: '0 4px', color: textColor}}/>
+          {hideLeftToggle
+            ? null
+            : (
+              <Icon
+                icon={hasChildren ? (openState ? 'chevron-down' : 'chevron-right') : ' '}
+                onClick={hasChildren ? onClickOpenToggle : null}
+                style={{margin: '0 4px', color: textColor}}
+              />
+            )
+          }
 
           {items.map((item, idx) => renderItem(item, idx))}
 
